@@ -1,4 +1,4 @@
-# fso-unicafe
+# Full Stack Open Projects
 
-Unicafe Project for Full Stack Open
+Project Directory for Full Stack Open
 https://fullstackopen.com/en/
