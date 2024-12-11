@@ -6,11 +6,15 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
-const Anecdote = ({anecdotes, selected}) => {
-  return (
+const Anecdote = ({anecdotes, selected}) => (
     <p>{anecdotes[selected]}</p>
   )
-}
+
+
+const Votes = ({votes, selected}) => (
+    <p>has {votes[selected]} votes</p>
+  )
+
 
 const App = () => {
   const anecdotes = [
@@ -25,15 +29,28 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+
 
   const handleNext = () => {
     setSelected( Math.round( Math.random() * (anecdotes.length - 0) + 0  ))
   }
 
+
+
+  const handleVote = () => {
+    const copy = [...votes]
+    copy[selected] += 1 
+    setVotes(copy)
+  }
+
+
   return (
     <div>
       <Anecdote anecdotes={anecdotes} selected={selected}/>
-      <Button handleClick={handleNext} text="Next anecdote"/>
+      <Button handleClick={handleVote} text="vote"/>
+      <Button handleClick={handleNext} text="next anecdote"/>
+      <Votes votes={votes} selected={selected}/>
     </div>
   )
 }
