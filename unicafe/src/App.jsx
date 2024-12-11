@@ -1,17 +1,48 @@
 import { useState } from 'react'
 
-const Header = (props) => {
+const Header = (props) => (<h1>{props.section}</h1>)
+
+const Stat = ({ type, name }) => {
+  console.log(type, name)
+  if (name == "positive") {
+    return (
+      <tr>
+      <td>{name}</td>
+      <td>{type} %</td>
+    </tr>
+    )
+  }
   return (
-    <h1>{props.section}</h1>
+    <tr>
+      <td>{name}</td>
+      <td>{type}</td>
+    </tr>
   )
 }
 
-const Stat = ({ type, name }) => (
-  <div>
-    {name} {type}
-  </div>
-)
-
+const Statistics = ({good, neutral, bad}) => {
+  const all = good+neutral+bad
+  const avg = (good-bad)/all
+  const pos = good/all
+  if (all == 0) {
+    return <p>No feedback given</p>
+  }
+  return (
+    <div>
+      <table>
+        <tbody>
+        <Stat name="good" type={good} />
+        <Stat name="neutral" type={neutral} />
+        <Stat name="bad" type={bad} />
+        <Stat name="all" type={all} />
+        <Stat name="average" type={avg} />
+        <Stat name="positive" type={pos} />
+        </tbody>
+      </table>
+        
+    </div>
+  )
+}
 
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
@@ -26,27 +57,27 @@ const App = () => {
   const [bad, setBad] = useState(0)
 
   const handleGoodClick = () => {
-    setGood(good +1)
+    const newGood = good+1
+    setGood(newGood)
   }
   const handleBadClick = () => {
-    setBad(bad +1)
+    const newBad = bad+1
+    setBad(newBad)
   }
   const handleNeutralClick = () => {
-    setNeutral(neutral +1)
+    const newNeutral = neutral+1
+    setNeutral(newNeutral)
   }
 
   return (
     <div>
       <Header section={"give feedback"} />
-      
       <Button handleClick={handleGoodClick} text="good" />
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadClick} text="bad" />
 
       <Header section={"statistics"} />
-      <Stat type={good} name="good"/>
-      <Stat type={neutral} name="neutral"/>
-      <Stat type={bad} name="bad"/>
+      <Statistics good={good} neutral={neutral} bad={bad} />
       
     </div>
     
