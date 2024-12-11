@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const Header = (props) => (<h1>{props.section}</h1>)
+
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
     {text}
@@ -15,6 +17,24 @@ const Votes = ({votes, selected}) => (
     <p>has {votes[selected]} votes</p>
   )
 
+const MostVotes = ({anecdotes, votes}) => {
+  let max = 0;
+  let maxIndex = 0;
+  for (let i = 0; i < votes.length; i++) {
+    if (votes[i] > max) {
+        maxIndex = i;
+        max = votes[i];
+    }
+  }
+
+  return (
+    <div> 
+      <Anecdote anecdotes={anecdotes} selected={maxIndex} />
+      <Votes votes={votes} selected={maxIndex} />
+    </div>
+    
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -33,10 +53,8 @@ const App = () => {
 
 
   const handleNext = () => {
-    setSelected( Math.round( Math.random() * (anecdotes.length - 0) + 0  ))
+    setSelected( Math.round( Math.random() * (anecdotes.length - 0) + 0  ) )
   }
-
-
 
   const handleVote = () => {
     const copy = [...votes]
@@ -47,10 +65,15 @@ const App = () => {
 
   return (
     <div>
+      <Header section="Anecdote of the day"/>
       <Anecdote anecdotes={anecdotes} selected={selected}/>
       <Button handleClick={handleVote} text="vote"/>
       <Button handleClick={handleNext} text="next anecdote"/>
       <Votes votes={votes} selected={selected}/>
+
+      <Header section="Anecdote with most votes"/>
+      <MostVotes anecdotes={anecdotes} votes={votes} />
+
     </div>
   )
 }
