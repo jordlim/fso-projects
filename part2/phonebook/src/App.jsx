@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-const Person = ( {name} ) => {
+const Person = ( {name, number} ) => {
   return (
     <p>
-      {name}
+      {name} {number}
     </p>
   )
 }
@@ -11,20 +11,25 @@ const Person = ( {name} ) => {
 const Persons = ( {persons} ) => {
   return (
     <div>
-      <p></p>
-      {persons.map(persons => <Person key= {persons.name} name={persons.name} /> )}
+      {persons.map(persons => <Person key={persons.name} name={persons.name} number={persons.number} /> )}
     </div>
   )
 }
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040 123-4567' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
-  const handleNoteChange = (event) => {
+  const handleNameChange = (event) => {
+    console.log(event.target.value)
     setNewName(event.target.value)
+  }
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
   }
 
   const addPerson = (event) => {
@@ -35,11 +40,14 @@ const App = () => {
     else {
       const personObject = {
         name: newName,
+        number: newNumber
       }
       setPersons(persons.concat(personObject))
       setNewName('')
+      setNewNumber('')
     }
   }
+
 
   return (
     <div>
@@ -49,14 +57,20 @@ const App = () => {
           name: 
           <input
             value={newName}
-            onChange={handleNoteChange}
+            onChange={handleNameChange}
+          />
+        </div>
+        <div>
+          number: 
+          <input 
+            value={newNumber}
+            onChange={handleNumberChange}
           />
         </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
-      {/* <div>debug: {newName}</div> */}
       <h2>Numbers</h2>
       <Persons persons={persons} />
     </div>
