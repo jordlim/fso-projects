@@ -52,12 +52,23 @@ const App = () => {
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
-          setNewNumber('')
-          console.log(returnedPerson)
-    })
+        setNewNumber('')
+        console.log(returnedPerson)
+      })
       
     }
   }
+
+  const removePerson = id => {
+    console.log("removing ", id)
+    personService
+    .remove(id)
+    .then(response => {
+      console.log(response)
+      setPersons(persons.filter(person => person.id !== id))
+    })
+  }
+
 
   const handleSearch = (event) => {
     setShowName(event.target.value)
@@ -73,7 +84,7 @@ const App = () => {
       <h2>add new</h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      {namesToShow.map(persons => <Person name={persons.name} number={persons.number} key={persons.id}/>) }
+      {namesToShow.map(persons => <Person name={persons.name} number={persons.number} key={persons.id} remove={() => removePerson(persons.id)}/>) }
     </div>
   )
 }
