@@ -75,15 +75,17 @@ const App = () => {
   }
 
   const removePerson = id => {
-    console.log("removing ", id)
-    personService
-    .remove(id)
-    .then(response => {
-      console.log(response)
-      setPersons(persons.filter(person => person.id !== id))
-    })
+    const person = persons.find(person => person.id === id)
+    if (window.confirm(`Delete ${person.name}?`)) {
+      console.log("removing ", id)
+      personService
+      .remove(id)
+      .then(response => {
+        console.log(response)
+        setPersons(persons.filter(person => person.id !== id))
+      })
+    }
   }
-
 
   const handleSearch = (event) => {
     setShowName(event.target.value)
