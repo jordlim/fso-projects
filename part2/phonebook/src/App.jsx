@@ -18,7 +18,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [showName, setShowName] = useState('')
-  const [successMessage, setSuccessMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
 
 
   useEffect(() => {
@@ -72,6 +72,7 @@ const App = () => {
         setNewName('')
         setNewNumber('')
         console.log(returnedPerson)
+
         setSuccessMessage(
           `Added '${newName}'`
         )
