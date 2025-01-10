@@ -6,6 +6,7 @@ import personService from './services/Persons.js'
 import Person from './Person'
 import PersonForm from './PersonForm'
 import Filter from './Filter'
+import Notification from './Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -17,6 +18,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [showName, setShowName] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+
 
   useEffect(() => {
     personService
@@ -69,6 +72,12 @@ const App = () => {
         setNewName('')
         setNewNumber('')
         console.log(returnedPerson)
+        setSuccessMessage(
+          `Added '${newName}'`
+        )
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
       })
       
     }
@@ -97,6 +106,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} />
       <Filter showName={showName} handleSearch={handleSearch} />
       <h2>add new</h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
